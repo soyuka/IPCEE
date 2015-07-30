@@ -1,4 +1,4 @@
-# IPC EE
+# IPC EE [![Build Status](https://travis-ci.org/soyuka/IPCEE.svg?branch=master)](https://travis-ci.org/soyuka/IPCEE)
 
 IPC combined with EventEmitter
 
