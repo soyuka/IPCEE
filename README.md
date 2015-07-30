@@ -36,7 +36,7 @@ IPC combined with EventEmitter
 Nodejs IPC will transport strings. Javascript objects are encoded with json internally. That said, You won't be able to pass instances.
 
 Example:
-```
+```javascript
 process.on('uncaughtException', function(err) {
   //Temptation would be to send the full Error object
   //but JSON.stringify(new Error('test')) will return '{}'
