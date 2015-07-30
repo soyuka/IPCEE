@@ -1,5 +1,5 @@
 {
-  "name": "IPCEE",
+  "name": "ipcee",
   "version": "1.0.0",
   "description": "IPC combined with EventEmitter",
   "main": "index.js",
