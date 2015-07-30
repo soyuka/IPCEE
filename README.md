@@ -6,7 +6,7 @@ IPC combined with EventEmitter
 
 ### Server
 
-```
+```javascript
   var ipc = IPCEE(process)
 
   ipc.send('started')
