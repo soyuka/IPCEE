@@ -31,6 +31,23 @@ IPC combined with EventEmitter
   })
 ```
 
+## Caveat
+
+Nodejs IPC will transport strings. Javascript objects are encoded with json internally. That said, You won't be able to pass instances.
+
+Example:
+```
+process.on('uncaughtException', function(err) {
+  //Temptation would be to send the full Error object
+  //but JSON.stringify(new Error('test')) will return '{}'
+  ipc.send('error', err.toString(), err.stack)
+
+  process.nextTick(function() {
+    process.exit(1) 
+  })
+})
+```
+
 ### Licence
 
 > The MIT License (MIT)

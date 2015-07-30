@@ -49,7 +49,7 @@ describe('IPCEE', function() {
     client.once('exit', cb)
   })
 
-  it('should get exit event 1', function(cb) {
+  it('should get error event', function(cb) {
    server = fork(p.join(__dirname, './fixtures/throw.js'))
    client = IPCEE(server)
 

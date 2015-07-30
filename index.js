@@ -30,8 +30,8 @@ IPCEE.prototype.send = function() {
 
 IPCEE.prototype.onmessage = function(args) {
   if(util.isArray(args)) {
-    this.emit.apply(this, args)
     debug('Received message', args)
+    this.emit.apply(this, args)
 
     return this
   }
