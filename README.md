@@ -19,7 +19,7 @@ IPC combined with EventEmitter
 ### Client
 
 ```javascript
-  var server = fork('some/node/app.js)
+  var server = fork('some/node/app.js')
   client = IPCEE(server)
 
   client.once('started', function() {
@@ -37,7 +37,7 @@ IPC combined with EventEmitter
 > [OSI Approved License]
 > The MIT License (MIT)
 > 
-> Copyright (c) <year> <copyright holders>
+> Copyright (c) 2015 Antoine Bluchet
 > 
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal
