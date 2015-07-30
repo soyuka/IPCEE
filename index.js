@@ -31,6 +31,7 @@ IPCEE.prototype.send = function() {
 IPCEE.prototype.onmessage = function(args) {
   if(util.isArray(args)) {
     this.emit.apply(this, args)
+    debug('Received message', args)
 
     return this
   }
@@ -42,6 +43,7 @@ IPCEE.prototype.onmessage = function(args) {
 IPCEE.prototype.onexit = function(code) {
   debug('Process exited with code %d', code)
   this._removeEvents()
+  this.emit('exit', code)
   delete this.client
 }
 

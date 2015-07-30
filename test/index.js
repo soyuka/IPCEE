@@ -2,13 +2,13 @@ var fork = require('child_process').fork
 var expect = require('chai').expect
 var p = require('path')
 var IPCEE = require('../index.js')
-var answer, ipc, server
+var client, server
 
 describe('IPCEE', function() {
   
   it('should fork', function() {
-    answer = fork(p.join(__dirname, './fixtures/answer.js'))
-    client = IPCEE(answer)
+    server = fork(p.join(__dirname, './fixtures/answer.js'))
+    client = IPCEE(server)
   })
 
   it('should get message through client', function(cb) {
@@ -22,12 +22,13 @@ describe('IPCEE', function() {
   })
 
   it('should not be available because child has been killed', function(cb) {
-   answer.kill()
+   server.kill()
 
-   answer.once('exit', function() {
+   server.once('exit', function() {
      expect(client.client).to.be.undefined
      cb()
    })
+
   })
 
   it('should fork server', function(cb) {
@@ -41,6 +42,22 @@ describe('IPCEE', function() {
     client.once('pong', cb)
 
     client.send('ping')
+  })
+
+  it('should get exit event', function(cb) {
+    server.kill()
+    client.once('exit', cb)
+  })
+
+  it('should get exit event 1', function(cb) {
+   server = fork(p.join(__dirname, './fixtures/throw.js'))
+   client = IPCEE(server)
+
+   client.on('error', function(err, stack) {
+       expect(err).to.equal('Error: Test')
+       expect(stack).to.be.a.string
+      return cb() 
+   })
   })
 
 
