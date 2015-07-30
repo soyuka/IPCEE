@@ -1,0 +1,30 @@
+{
+  "name": "IPCEE",
+  "version": "1.0.0",
+  "description": "IPC combined with EventEmitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/soyuka/IPCEE.git"
+  },
+  "keywords": [
+    "ipc",
+    "EventEmitter"
+  ],
+  "author": "soyuka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soyuka/ipc-handler/issues"
+  },
+  "homepage": "https://github.com/soyuka/ipc-handler#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "debug": "^2.2.0"
+  }
+}
