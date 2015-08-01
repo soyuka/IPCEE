@@ -87,8 +87,6 @@ Here, Temptation would be to send the full Error object but `JSON.stringify(new 
 ### Licence
 
 > The MIT License (MIT)
-> [OSI Approved License]
-> The MIT License (MIT)
 > 
 > Copyright (c) 2015 Antoine Bluchet
 > 
