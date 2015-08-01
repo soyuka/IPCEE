@@ -15,11 +15,11 @@ child.send('message', {some: 'data'}, [data])
 ```
 
 [List of accepted instances](https://github.com/joyent/node/blob/9010dd26529cea60b7ee55ddae12688f81a09fcb/lib/child_process.js#L436). If you look a but further in the code, internal messages are sent with the [first argument]([](https://github.com/joyent/node/blob/9010dd26529cea60b7ee55ddae12688f81a09fcb/lib/child_process.js#L430)
-). 
+). As stated in the docs:
 
 > There is a special case when sending a {cmd: 'NODE_foo'} message.
 
-As stated in the docs. Keep in mind that ipc calls are synchronous:
+ Keep also  in mind that ipc calls are synchronous:
 
 > Please note that the send() method on both the parent and child are synchronous - sending large chunks of data is not advised (pipes can be used instead, see child_process.spawn).
 
