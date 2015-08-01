@@ -74,8 +74,6 @@ Using the first argument of [child_process.send()](https://nodejs.org/api/child_
 Example:
 ```javascript
 process.on('uncaughtException', function(err) {
-  //Temptation would be to send the full Error object
-  //but JSON.stringify(new Error('test')) will return '{}'
   ipc.send('error', err.toString(), err.stack)
 
   process.nextTick(function() {
@@ -83,6 +81,8 @@ process.on('uncaughtException', function(err) {
   })
 })
 ```
+
+Here, Temptation would be to send the full Error object but `JSON.stringify(new Error('test')`) will return `'{}'`.
 
 ### Licence
 
