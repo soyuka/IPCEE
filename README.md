@@ -10,7 +10,7 @@ First, [RTFM child.send(message[, sendHandle])](https://nodejs.org/api/child_pro
 
 This means that you won't be able to do things like:
 
-```
+```javascript
 child.send('message', {some: 'data'}, [data])
 ```
 
@@ -26,12 +26,12 @@ child.send('message', {some: 'data'}, [data])
 Then, I thought it could be nice to do:
 
 #### Child
-```  
+```javascript
 ipc.send('started')
 ```
 
 #### Master
-```
+```javascript
 var child = fork('child')
 child.once('started', dosomething)
 ```
