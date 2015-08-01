@@ -25,12 +25,12 @@ child.send('message', {some: 'data'}, [data])
 
 Then, I thought it could be nice to do:
 
-### Child
+#### Child
 ```  
 ipc.send('started')
 ```
 
-### Master
+#### Master
 ```
 var child = fork('child')
 child.once('started', dosomething)
