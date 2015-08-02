@@ -7,7 +7,7 @@ function IPCEE(child_process) {
 
   if(!(this instanceof IPCEE)) { return new IPCEE(child_process) }
 
-  assert(child_process.hasOwnProperty('send'))
+  assert(child_process.hasOwnProperty('send'), 'IPC is not enabled')
 
   EE.call(this)
 

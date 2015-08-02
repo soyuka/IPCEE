@@ -6,6 +6,15 @@ var client, server
 
 describe('IPCEE', function() {
   
+  it('should throw because ipc is not available', function(cb) {
+    try {
+      IPCEE({foo: 'bar'})  
+    } catch(err) {
+      expect(err.message).to.equal('IPC is not enabled') 
+      cb()
+    }
+  })
+
   it('should fork', function() {
     server = fork(p.join(__dirname, './fixtures/answer.js'))
     client = IPCEE(server)
