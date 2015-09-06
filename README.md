@@ -23,6 +23,8 @@ child.send('message', {some: 'data'}, [data])
 
 > Please note that the send() method on both the parent and child are synchronous - sending large chunks of data is not advised (pipes can be used instead, see child_process.spawn).
 
+/!\ In fact it's not [see this issue](https://github.com/nodejs/node/issues/760)! This is nice because they will also enable a callback for async calls ([commit](https://github.com/nodejs/node/commit/56d9584a0ead78874ca9d4de2e55b41c4056e502))!
+
 Then, I thought it could be nice to do:
 
 #### Child
