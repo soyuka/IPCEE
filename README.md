@@ -1,6 +1,6 @@
 # IPC EE [![Build Status](https://travis-ci.org/soyuka/IPCEE.svg?branch=master)](https://travis-ci.org/soyuka/IPCEE)
 
-IPC combined with EventEmitter
+IPC combined with [EventEmitter2](https://github.com/asyncly/EventEmitter2)
 
 ## What for?
 
@@ -42,7 +42,7 @@ Internally I just had to combine EventEmitter and use the first argument to pass
 
 ## Usage
 
-### Server
+### Child
 
 ```javascript
   var ipc = IPCEE(process)
@@ -54,17 +54,46 @@ Internally I just had to combine EventEmitter and use the first argument to pass
   })
 ```
 
-### Client
+### Master
 
 ```javascript
   var server = fork('some/node/app.js')
-  client = IPCEE(server)
+  var client = IPCEE(server)
 
   client.once('started', function() {
     client.send('ping')
   })
 
-  client.once('pong', function() {
+  client.once('*.pong', function() {
+    console.log('\o/')
+  })
+```
+
+Or with namespaces:
+
+### Child
+
+```javascript
+  var ipc = IPCEE(process, {wildcard: true})
+
+  ipc.send('started')
+
+  ipc.on('ping:me', function() {
+    ipc.send('me:pong')
+  })
+```
+
+### Master
+
+```javascript
+  var server = fork('some/node/app.js')
+  var client = IPCEE(server, {wildcard: true})
+
+  client.once('started', function() {
+    client.send('ping.*')
+  })
+
+  client.once('*.pong', function() {
     console.log('\o/') 
   })
 ```

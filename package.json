@@ -25,6 +25,7 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "debug": "^2.2.0"
+    "debug": "^2.2.0",
+    "eventemitter2": "^0.4.14"
   }
 }

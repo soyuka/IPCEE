@@ -59,15 +59,26 @@ describe('IPCEE', function() {
   })
 
   it('should get error event', function(cb) {
-   server = fork(p.join(__dirname, './fixtures/throw.js'))
-   client = IPCEE(server)
+    server = fork(p.join(__dirname, './fixtures/throw.js'))
+    client = IPCEE(server)
 
-   client.on('error', function(err, stack) {
-       expect(err).to.equal('Error: Test')
-       expect(stack).to.be.a.string
-      return cb() 
-   })
+    client.once('error', function(err, stack) {
+      expect(err).to.equal('Error: Test')
+      expect(stack).to.be.a.string
+
+      client.once('exit', function() {
+        return cb()
+      })
+    })
   })
 
+  it('should work with namespaces', function(cb) {
+   server = fork(p.join(__dirname, './fixtures/server.js'))
+   client = IPCEE(server, {wildcard: true})
+
+   client.once('*.pong', cb)
+
+   client.send('ping.*')
+  })
 
 })
