@@ -9,5 +9,5 @@ ipc.on('ping', function() {
 })
 
 ipc.on('ping.me', function() {
- ipc.send('me.pong')
+  ipc.send('me.pong')
 })

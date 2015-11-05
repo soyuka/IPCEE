@@ -41,7 +41,7 @@ describe('IPCEE', function() {
   })
 
   it('should fork server', function(cb) {
-   server = fork(p.join(__dirname, './fixtures/server.js'))
+   server = fork(p.join(__dirname, './fixtures/pingpong.js'))
    client = IPCEE(server)
 
    client.once('started', cb)
@@ -51,6 +51,10 @@ describe('IPCEE', function() {
     client.once('pong', cb)
 
     client.send('ping')
+  })
+
+  it('should work with a callback', function(cb) {
+    client.send('ping', cb)
   })
 
   it('should get exit event', function(cb) {
@@ -73,12 +77,11 @@ describe('IPCEE', function() {
   })
 
   it('should work with namespaces', function(cb) {
-   server = fork(p.join(__dirname, './fixtures/server.js'))
+   server = fork(p.join(__dirname, './fixtures/pingpong.js'))
    client = IPCEE(server, {wildcard: true})
 
    client.once('*.pong', cb)
 
    client.send('ping.*')
   })
-
 })
