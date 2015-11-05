@@ -32,8 +32,14 @@ util.inherits(IPCEE, EE)
  */
 IPCEE.prototype.send = function() {
  var args = [].slice.call(arguments)
+ var callback = args.slice(-1)[0]
 
- this.client.send(args)
+ if(typeof callback == 'function') {
+   args.shift()
+   this.client.send(args, callback)
+ } else {
+   this.client.send(args)
+ }
 
  return this
 }
