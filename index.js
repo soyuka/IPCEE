@@ -18,7 +18,8 @@ function IPCEE(child_process, options) {
 
   this._hookEvents()
 
-  this.on('error', function() { })
+  //eventemitter2 wants an error event to be registered
+  this.on('error', function() {})
 
   EE.call(this, options)
 }
@@ -35,7 +36,7 @@ IPCEE.prototype.send = function() {
  var callback = args.slice(-1)[0]
 
  if(typeof callback == 'function') {
-   args.shift()
+   args.pop()
    this.client.send(args, callback)
  } else {
    this.client.send(args)
