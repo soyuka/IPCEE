@@ -84,4 +84,26 @@ describe('IPCEE', function() {
 
    client.send('ping.*')
   })
+
+  it('should send socket', function(cb) {
+    var s = require('net').createServer()
+    server = fork(p.join(__dirname, './fixtures/socket.js'))
+    client = IPCEE(server)
+
+    s.listen(function() {
+       client.send('server', s)
+    })
+
+    client.once('ok', cb)
+  })
+
+  it('should send socket with callback', function(cb) {
+    var s = require('net').createServer()
+    server = fork(p.join(__dirname, './fixtures/socket.js'))
+    client = IPCEE(server)
+
+    s.listen(function() {
+       client.send('server', s, cb)
+    })
+  })
 })

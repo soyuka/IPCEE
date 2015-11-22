@@ -1,7 +1,26 @@
+'use strict';
 var assert = require('assert')
 var util = require('util')
 var EE = require('eventemitter2').EventEmitter2
 var debug = require('debug')('IPCEE')
+
+const ACCEPT_HANDLES = [
+  require('net').Socket, 
+  require('net').Server,
+  process.binding('pipe_wrap').Pipe, 
+  process.binding('tcp_wrap').TCP, 
+  process.binding('udp_wrap').UDP,
+  require('dgram').Socket, 
+]
+
+function isHandle(handle) {
+  for(let i in ACCEPT_HANDLES) {
+    if(handle instanceof ACCEPT_HANDLES[i]) 
+      return true
+  }
+
+  return false
+}
 
 /**
  * @param ChildProcess child_process an instantiated child process that supports ipc
@@ -32,14 +51,22 @@ util.inherits(IPCEE, EE)
  * @return this
  */
 IPCEE.prototype.send = function() {
- var args = [].slice.call(arguments)
- var callback = args.slice(-1)[0]
+ let args = [].slice.call(arguments)
+ let callback = args.slice(-1)[0]
 
- if(typeof callback == 'function') {
-   args.pop()
-   this.client.send(args, callback)
+ if(isHandle(args[1])) {
+    if(typeof callback == 'function') {
+      this.client.send(args[0], args[1], callback) 
+    } else {
+      this.client.send(args[0], args[1]) 
+    }
  } else {
-   this.client.send(args)
+   if(typeof callback == 'function') {
+     args.pop()
+     this.client.send(args, callback)
+   } else {
+     this.client.send(args)
+   }
  }
 
  return this
@@ -59,8 +86,10 @@ IPCEE.prototype.onmessage = function(args) {
     return this
   }
 
-  //no array keep the default behavior
-  this.emit('message', args)
+  //no array, events have a handle, emit args[0] with the handle
+  let realArgs = [].slice.call(arguments)
+  this.emit.apply(this, realArgs)
+
   return this
 }
 

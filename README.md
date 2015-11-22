@@ -19,12 +19,6 @@ child.send('message', {some: 'data'}, [data])
 
 > There is a special case when sending a {cmd: 'NODE_foo'} message.
 
- Keep also  in mind that ipc calls are synchronous:
-
-> Please note that the send() method on both the parent and child are synchronous - sending large chunks of data is not advised (pipes can be used instead, see child_process.spawn).
-
-/!\ In fact it's not [see this issue](https://github.com/nodejs/node/issues/760)! This is nice because they will also enable a callback for async calls ([commit](https://github.com/nodejs/node/commit/56d9584a0ead78874ca9d4de2e55b41c4056e502))!
-
 Then, I thought it could be nice to do:
 
 #### Child
@@ -114,6 +108,29 @@ process.on('uncaughtException', function(err) {
 ```
 
 Here, Temptation would be to send the full Error object but `JSON.stringify(new Error('test')`) will return `'{}'`.
+
+## Native IPC features
+
+IPCEE does **not** override any of the internals methods. This means that you'll still be able to get messages from the standard way:
+
+```
+process.on('message', function(m, handle) {
+  if(m === 'server') {
+    //do something with handle 
+  }
+})
+```
+
+But it will handle accepted instances in an easy way too. For example, sending a Socket:
+
+```
+//server.js
+ipc.send('socket', sock)
+//child.js
+ipc.on('socket', function(sock) {
+  assert(sock instanceof Socket)
+})
+```
 
 ### Licence
 
