@@ -29,6 +29,6 @@
   },
   "dependencies": {
     "debug": "^2.2.0",
-    "eventemitter2": "^0.4.14"
+    "eventemitter2": "^2.0.0"
   }
 }
