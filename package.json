@@ -1,6 +1,6 @@
 {
   "name": "ipcee",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "IPC combined with EventEmitter",
   "engines": {
     "node": ">=4.1"
