@@ -58,7 +58,7 @@ Internally I just had to combine EventEmitter and use the first argument to pass
     client.send('ping')
   })
 
-  client.once('*.pong', () => {
+  client.once('pong', () => {
     console.log('\o/')
   })
 ```
@@ -84,10 +84,10 @@ Or with namespaces:
   const client = IPCEE(server, {wildcard: true})
 
   client.once('started', () => {
-    client.send('ping.*')
+    client.send('ping:*')
   })
 
-  client.once('*.pong', () => {
+  client.once('*:pong', () => {
     console.log('\o/') 
   })
 ```
@@ -127,7 +127,7 @@ But it will handle accepted instances in an easy way too. For example, sending a
 //server.js
 ipc.send('socket', sock)
 //child.js
-ipc.on('socket', function(sock) {
+ipc.on('socket', (sock) => {
   assert(sock instanceof Socket)
 })
 ```
