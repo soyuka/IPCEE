@@ -28,7 +28,7 @@ ipc.send('started')
 
 #### Master
 ```javascript
-var child = fork('child')
+const child = fork('child')
 child.once('started', dosomething)
 ```
 
@@ -39,7 +39,7 @@ Internally I just had to combine EventEmitter and use the first argument to pass
 ### Child
 
 ```javascript
-  var ipc = IPCEE(process)
+  const ipc = IPCEE(process)
 
   ipc.send('started')
 
@@ -51,14 +51,14 @@ Internally I just had to combine EventEmitter and use the first argument to pass
 ### Master
 
 ```javascript
-  var server = fork('some/node/app.js')
-  var client = IPCEE(server)
+  const server = fork('some/node/app.js')
+  const client = IPCEE(server)
 
-  client.once('started', function() {
+  client.once('started', () => {
     client.send('ping')
   })
 
-  client.once('*.pong', function() {
+  client.once('*.pong', () => {
     console.log('\o/')
   })
 ```
@@ -68,11 +68,11 @@ Or with namespaces:
 ### Child
 
 ```javascript
-  var ipc = IPCEE(process, {wildcard: true})
+  const ipc = IPCEE(process, {wildcard: true})
 
   ipc.send('started')
 
-  ipc.on('ping:me', function() {
+  ipc.on('ping:me', () => {
     ipc.send('me:pong')
   })
 ```
@@ -80,14 +80,14 @@ Or with namespaces:
 ### Master
 
 ```javascript
-  var server = fork('some/node/app.js')
-  var client = IPCEE(server, {wildcard: true})
+  const server = fork('some/node/app.js')
+  const client = IPCEE(server, {wildcard: true})
 
-  client.once('started', function() {
+  client.once('started', () => {
     client.send('ping.*')
   })
 
-  client.once('*.pong', function() {
+  client.once('*.pong', () => {
     console.log('\o/') 
   })
 ```
@@ -98,10 +98,10 @@ Using the first argument of [child_process.send()](https://nodejs.org/api/child_
 
 Example:
 ```javascript
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', err => {
   ipc.send('error', err.toString(), err.stack)
 
-  process.nextTick(function() {
+  process.nextTick(() => {
     process.exit(1) 
   })
 })
@@ -113,8 +113,8 @@ Here, Temptation would be to send the full Error object but `JSON.stringify(new 
 
 IPCEE does **not** override any of the internals methods. This means that you'll still be able to get messages from the standard way:
 
-```
-process.on('message', function(m, handle) {
+```js
+process.on('message', (m, handle) => {
   if(m === 'server') {
     //do something with handle 
   }
@@ -123,7 +123,7 @@ process.on('message', function(m, handle) {
 
 But it will handle accepted instances in an easy way too. For example, sending a Socket:
 
-```
+```js
 //server.js
 ipc.send('socket', sock)
 //child.js
