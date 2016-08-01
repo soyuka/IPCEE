@@ -4,7 +4,7 @@ IPC combined with [EventEmitter2](https://github.com/asyncly/EventEmitter2)
 
 ## What for?
 
-First, [RTFM child.send(message[, sendHandle])](https://nodejs.org/api/child_process.html#child_process_child_send_message_sendhandle).
+First, [RTFM child.send(message[, sendHandle])](https://nodejs.org/api/child_process.html#child_process_child_send_message_sendhandle_options_callback).
 
 > The sendHandle option to child.send() is for sending a TCP server or socket object to another process. The child will receive the object as its second argument to the message event.
 
@@ -14,12 +14,15 @@ This means that you won't be able to do things like:
 child.send('message', {some: 'data'}, [data])
 ```
 
-[List of accepted instances](https://github.com/joyent/node/blob/9010dd26529cea60b7ee55ddae12688f81a09fcb/lib/child_process.js#L436). If you look a but further in the code, internal messages are sent with the [first argument]([](https://github.com/joyent/node/blob/9010dd26529cea60b7ee55ddae12688f81a09fcb/lib/child_process.js#L430)
-). As stated in the docs:
+This library still works with the [list of accepted instances](https://github.com/nodejs/node/blob/d59917b2a359bf72f12a57ed9a32a3841720b608/lib/internal/child_process.js#L545). Also, if you look a but further in the code, internal messages are handled first. As stated in the docs:
 
 > There is a special case when sending a {cmd: 'NODE_foo'} message.
 
-Then, I thought it could be nice to do:
+Things apart, this is a fancier api to communicate with child processes!
+
+## Usage
+
+### Test for child start:
 
 #### Child
 ```javascript
@@ -32,11 +35,9 @@ const child = fork('child')
 child.once('started', dosomething)
 ```
 
-Internally I just had to combine EventEmitter and use the first argument to pass an array of arguments.
+#### Play ping pong:
 
-## Usage
-
-### Child
+#### Child
 
 ```javascript
   const ipc = IPCEE(process)
@@ -48,7 +49,7 @@ Internally I just had to combine EventEmitter and use the first argument to pass
   })
 ```
 
-### Master
+#### Master
 
 ```javascript
   const server = fork('some/node/app.js')
@@ -63,9 +64,9 @@ Internally I just had to combine EventEmitter and use the first argument to pass
   })
 ```
 
-Or with namespaces:
+### Or play with namespaces:
 
-### Child
+#### Child
 
 ```javascript
   const ipc = IPCEE(process, {wildcard: true})
@@ -77,7 +78,7 @@ Or with namespaces:
   })
 ```
 
-### Master
+#### Master
 
 ```javascript
   const server = fork('some/node/app.js')
@@ -94,7 +95,7 @@ Or with namespaces:
 
 ## Caveat
 
-Using the first argument of [child_process.send()](https://nodejs.org/api/child_process.html#child_process_child_send_message_sendhandle), Nodejs IPC will transport strings. Javascript objects are encoded with json internally. That said, You won't be able to pass instances.
+Using the first argument of [child_process.send()](https://nodejs.org/api/child_process.html#child_process_child_send_message_sendhandle), Nodejs IPC will transport strings. Javascript objects are encoded with json [internally](https://github.com/nodejs/node/blob/d59917b2a359bf72f12a57ed9a32a3841720b608/lib/internal/child_process.js#L609). That said, You won't be able to pass instances.
 
 Example:
 ```javascript
@@ -108,6 +109,8 @@ process.on('uncaughtException', err => {
 ```
 
 Here, Temptation would be to send the full Error object but `JSON.stringify(new Error('test')`) will return `'{}'`.
+
+Note, I made a js to string proof of concept [here](https://github.com/soyuka/eviluation), it could work in some cases.
 
 ## Native IPC features
 
