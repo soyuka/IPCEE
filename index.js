@@ -1,21 +1,20 @@
 'use strict';
-var assert = require('assert')
-var util = require('util')
-var EE = require('eventemitter2').EventEmitter2
-var debug = require('debug')('IPCEE')
+const assert = require('assert')
+const util = require('util')
+const EE = require('eventemitter2').EventEmitter2
 
 const ACCEPT_HANDLES = [
-  require('net').Socket, 
+  require('net').Socket,
   require('net').Server,
-  process.binding('pipe_wrap').Pipe, 
-  process.binding('tcp_wrap').TCP, 
+  process.binding('pipe_wrap').Pipe,
+  process.binding('tcp_wrap').TCP,
   process.binding('udp_wrap').UDP,
-  require('dgram').Socket, 
+  require('dgram').Socket,
 ]
 
 function isHandle(handle) {
   for(let i in ACCEPT_HANDLES) {
-    if(handle instanceof ACCEPT_HANDLES[i]) 
+    if(handle instanceof ACCEPT_HANDLES[i])
       return true
   }
 
@@ -56,9 +55,9 @@ IPCEE.prototype.send = function() {
 
  if(isHandle(args[1])) {
     if(typeof callback == 'function') {
-      this.client.send(args[0], args[1], callback) 
+      this.client.send(args[0], args[1], callback)
     } else {
-      this.client.send(args[0], args[1]) 
+      this.client.send(args[0], args[1])
     }
  } else {
    if(typeof callback == 'function') {
@@ -79,7 +78,6 @@ IPCEE.prototype.send = function() {
  */
 IPCEE.prototype.onmessage = function(args) {
   if(util.isArray(args)) {
-    debug('Received message', args)
     //emit the real event (args[0]) with arguments
     this.emit.apply(this, args)
 
@@ -99,7 +97,6 @@ IPCEE.prototype.onmessage = function(args) {
  * @return void
  */
 IPCEE.prototype.onexit = function(code) {
-  debug('Process exited with code %d', code)
   this._removeEvents()
   this.emit('exit', code)
   delete this.client

@@ -20,15 +20,14 @@
   "author": "soyuka",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/soyuka/ipc-handler/issues"
+    "url": "https://github.com/soyuka/IPCEE/issues"
   },
-  "homepage": "https://github.com/soyuka/ipc-handler#readme",
+  "homepage": "https://github.com/soyuka/ICPEE#readme",
   "devDependencies": {
     "chai": "^3.2.0",
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "debug": "^2.2.0",
     "eventemitter2": "^2.0.0"
   }
 }

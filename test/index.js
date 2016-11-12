@@ -5,12 +5,12 @@ var IPCEE = require('../index.js')
 var client, server
 
 describe('IPCEE', function() {
-  
+
   it('should throw because ipc is not available', function(cb) {
     try {
-      IPCEE({foo: 'bar'})  
+      IPCEE({foo: 'bar'})
     } catch(err) {
-      expect(err.message).to.equal('IPC is not enabled') 
+      expect(err.message).to.equal('IPC is not enabled')
       cb()
     }
   })
@@ -24,8 +24,8 @@ describe('IPCEE', function() {
    client.once('test', function(x, y) {
      expect(x).to.deep.equal({foo: 'bar'})
      expect(y).to.deep.equal([0,1,2])
-    cb() 
-   }) 
+    cb()
+   })
 
    client.send('test', {foo: 'bar'}, [0,1,2])
   })
@@ -76,7 +76,7 @@ describe('IPCEE', function() {
     })
   })
 
-  it('should work with namespaces', function(cb) {
+  it('should work with wildcards', function(cb) {
    server = fork(p.join(__dirname, './fixtures/pingpong.js'))
    client = IPCEE(server, {wildcard: true})
 

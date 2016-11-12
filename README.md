@@ -20,6 +20,8 @@ This library still works with the [list of accepted instances](https://github.co
 
 Things apart, this is a fancier api to communicate with child processes!
 
+Note that I consider this as a low-level module, if you want a higher communication api, take a look at [relieve](https://github.com/soyuka/relieve). I also made a module with the same api using TCP instead of IPC: [TCPEE](https://github.com/soyuka/tcpee).
+
 ## Usage
 
 ### Test for child start:
@@ -45,7 +47,7 @@ child.once('started', dosomething)
   ipc.send('started')
 
   ipc.on('ping', function() {
-    ipc.send('pong') 
+    ipc.send('pong')
   })
 ```
 
@@ -89,7 +91,7 @@ child.once('started', dosomething)
   })
 
   client.once('*:pong', () => {
-    console.log('\o/') 
+    console.log('\o/')
   })
 ```
 
@@ -103,7 +105,7 @@ process.on('uncaughtException', err => {
   ipc.send('error', err.toString(), err.stack)
 
   process.nextTick(() => {
-    process.exit(1) 
+    process.exit(1)
   })
 })
 ```
@@ -119,7 +121,7 @@ IPCEE does **not** override any of the internals methods. This means that you'll
 ```js
 process.on('message', (m, handle) => {
   if(m === 'server') {
-    //do something with handle 
+    //do something with handle
   }
 })
 ```
@@ -135,22 +137,48 @@ ipc.on('socket', (sock) => {
 })
 ```
 
+## API
+
+```javascript
+/**
+ * Constructor
+ * @param socket - the process/child_process to write/read to/from
+ * @param options - eventemitter2 options
+ */
+const ipcee = new IPCEE(process, {wildcard: true})
+
+/**
+ * @param key - the key you'll listen on
+ * @param ...args
+ */
+ipcee.send('key', arg1, arg2)
+
+/**
+ * @param key
+ * @param ...args data received
+ */
+ipcee.on('key', function(arg1, arg2) {
+})
+```
+
+Apart from the `send` method, the api inherits the one of [EventEmitter2](https://github.com/asyncly/EventEmitter2).
+
 ### Licence
 
 > The MIT License (MIT)
-> 
+>
 > Copyright (c) 2015 Antoine Bluchet
-> 
+>
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal
 > in the Software without restriction, including without limitation the rights
 > to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 > copies of the Software, and to permit persons to whom the Software is
 > furnished to do so, subject to the following conditions:
-> 
+>
 > The above copyright notice and this permission notice shall be included in
 > all copies or substantial portions of the Software.
-> 
+>
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 > IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 > FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
