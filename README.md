@@ -71,7 +71,7 @@ child.once('started', dosomething)
 #### Child
 
 ```javascript
-  const ipc = IPCEE(process, {wildcard: true})
+  const ipc = IPCEE(process, {wildcard: true, delimiter: ':'})
 
   ipc.send('started')
 
@@ -84,7 +84,7 @@ child.once('started', dosomething)
 
 ```javascript
   const server = fork('some/node/app.js')
-  const client = IPCEE(server, {wildcard: true})
+  const client = IPCEE(server, {wildcard: true, delimiter: ':'})
 
   client.once('started', () => {
     client.send('ping:*')
