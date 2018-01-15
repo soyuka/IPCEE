@@ -4,6 +4,6 @@ var ipc = IPCEE(process)
 
 ipc.send('started')
 
-ipc.on('ping', function() {
+ipc.on('ping', function () {
   return 'pong'
 })

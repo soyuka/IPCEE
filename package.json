@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "standard && mocha"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,9 @@
   },
   "homepage": "https://github.com/soyuka/ICPEE#readme",
   "devDependencies": {
-    "chai": "^3.2.0",
-    "mocha": "^2.2.5"
+    "chai": "^4.1.2",
+    "mocha": "^4.1.0",
+    "standard": "^10.0.3"
   },
   "dependencies": {
     "eventemitter2": "^5.0.1"
