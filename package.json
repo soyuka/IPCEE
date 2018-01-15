@@ -28,6 +28,6 @@
     "mocha": "^2.2.5"
   },
   "dependencies": {
-    "eventemitter2": "^2.0.0"
+    "eventemitter2": "^5.0.1"
   }
 }
